@@ -1,0 +1,19 @@
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+
+    container_name: simhm-api
+
+    ports:
+      - "8080:8080"
+
+    env_file:
+      - ./api/.env
+
+    restart: unless-stopped
+
+networks:
+  default:
+    name: simhm-network
