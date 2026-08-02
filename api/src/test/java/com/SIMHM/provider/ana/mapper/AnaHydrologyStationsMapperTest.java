@@ -2,11 +2,14 @@ package com.SIMHM.provider.ana.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import com.SIMHM.provider.ana.exception.AnaHydrologyStationsException;
 import com.SIMHM.provider.ana.response.AnaHydrologyStation;
 import com.SIMHM.provider.ana.response.AnaHydrologyStationsResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class AnaHydrologyStationsMapperTest {
 
@@ -42,7 +45,7 @@ class AnaHydrologyStationsMapperTest {
                 + "\"codigoestacao\":\"2853005\""
                 + "}]}";
 
-        AnaHydrologyStationsMapper mapper = new AnaHydrologyStationsMapper();
+        AnaHydrologyStationsMapper mapper = new AnaHydrologyStationsMapper(new ObjectMapper());
         AnaHydrologyStationsResponse response = mapper.toResponse(json);
 
         assertEquals("OK", response.getStatus());
@@ -74,5 +77,12 @@ class AnaHydrologyStationsMapperTest {
         assertEquals("RIO GRANDE DO SUL", station.getUfNomeEstacao());
         assertEquals("8", station.getCodigoBacia());
         assertEquals("2853005", station.getCodigoEstacao());
+    }
+
+    @Test
+    void shouldThrowWhenJsonIsInvalid() {
+        AnaHydrologyStationsMapper mapper = new AnaHydrologyStationsMapper(new ObjectMapper());
+
+        assertThrows(AnaHydrologyStationsException.class, () -> mapper.toResponse("{invalid-json"));
     }
 }

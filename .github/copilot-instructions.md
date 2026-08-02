@@ -48,39 +48,6 @@
 - Nenhuma camada superior pode acessar diretamente camadas inferiores.
 - Toda regra de negócio deve estar na camada Service.
 
-## Tecnologias utilizadas
-- Projeto Maven:
-- **Java 21**,
-- **Spring Boot 4.0.7**,
-- Depentencias:
-- Spring Web MVC
-- Spring Validation
-- Spring Cache (Caffeine)
-- Lombok
-- Swagger / OpenAPI
-- Spring Boot DevTools
-
-## Estrutura do diretório
- SIMHM/
-|-- config/
-|-- controller/
-   |-- request/
-   |-- response/
-|-- domain/
-|-- exception/
-|-- mapper/ 
-|-- provider
-    |-- ana/
-        |-- auth/
-        |-- exception/
-        |-- hydrology/
-        |-- mapper/
-        |-- request/ 
-        |-- response/
-    |-- open-meteo/
-|-- repository/
-|-- service/
-
 ### Variáveis de ambiente
 - Este projeto utiliza variáveis de ambiente para armazenar informações sensíveis.- Regras:
 - Nunca adicionar credenciais diretamente no código-fonte.
@@ -114,35 +81,65 @@ no arquivo `.env` durante o desenvolvimento ou nas variáveis de ambiente em pro
 - Credenciais devem ser obtidas exclusivamente através de variáveis de ambiente.
 - Nunca duplicar código de autenticação entre Providers.
 
-## Documentação
-- Uma aplicação Back-end que consulta apis de geolocalização e previsão de tempo em tempo real, histórico pluviometrico, estações hidrologicas em tempo real
-e cruza essas informações para fornecer um índice de risco de enchentes para uma determinada região.
-- **API de geolocalização**: https://geocoding-api.open-meteo.com/v1/search?name={city}&count=10&language=pt&format=json&countryCode=BR
-- **API de previsão de tempo**: https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,showers_sum,uv_index_max,precipitation_hours,precipitation_sum,precipitation_probability_max,et0_fao_evapotranspiration,weather_code&hourly=temperature_2m,soil_moisture_0_to_1cm,soil_moisture_1_to_3cm,soil_moisture_3_to_9cm,soil_moisture_9_to_27cm,soil_moisture_27_to_81cm,showers,rain,precipitation,precipitation_probability,relative_humidity_2m&current=temperature_2m,apparent_temperature,precipitation,rain,showers,weather_code
-- **API de histórico pluviométrico**: https://archive-api.open-meteo.com/v1/archive?latitude={latitude}&longitude={longitude}&start_date={start_date}&end_date={end_date}&hourly=temperature_2m,relative_humidity_2m,rain,precipitation,weather_code,et0_fao_evapotranspiration,soil_moisture_0_to_7cm,soil_moisture_7_to_28cm,soil_moisture_28_to_100cm,soil_moisture_100_to_255cm
-
-- **API de estações hidrológicas**: https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/HidroInventarioEstacoes/v1?Unidade%20Federativa=RS&C%C3%B3digo%20da%20Bacia=8
-- **API de histórico pluviométrico**: https://api.ana.gov.br/v1/hidroweb/series?codigoEstacao={codigoEstacao}&dataInicio={dataInicio}&dataFim={dataFim}&tipoDados=1&token={token}
-- **API de autorização ANA**: https://www.ana.gov.br/hidrowebservice/EstacoesTelemetricas/OAUth/v1
-
 ### Regras
 - Caso a estrutura de diretórios do diretório 'test' não estiver igual ao direrório 'com.SIMHM',
 crie a estrutura necessaria para que os testes sejam criados de acordo com os diretórios.
 - Sempre faça os testes unitários antes de implementar novas funcionalidades.(TDD)
 - Sempre que fizer os testes, aguarde um novo comando para implementar as funcionalidades.
 
+## Testes
+- Utilizar JUnit 5.
+- Utilizar Mockito quando necessário.
+- Criar um teste para cada cenário.
+- Seguir Given / When / Then.
+- Nunca alterar código de produção apenas para fazer um teste passar.
+
 ## Logs
 - Utilizar SLF4J.
+- Utilizar LogMessages para mensagens padronizadas.
 - Nunca utilizar System.out.println().
 - Registrar apenas informações relevantes.
 - Nunca registrar credenciais ou tokens.
 
 ## DTO
+- Nunca retornar entidades de domínio diretamente.
+- Toda entrada deve utilizar Request DTO.
+- Toda saída deve utilizar Response DTO.
+- As conversões devem ser realizadas pelos Mappers.
 
-Nunca retornar entidades de domínio diretamente.
+## Convenções
+- Utilizar o Lombok, @Data, @Builder, @Getter, @Setter, @NoArgsConstructor, @AllArgsConstructor e @RequiredArgsConstructor sempre que possível.
+- Utilizar injeção de dependência por construtor.
+- Utilizar final para dependências.
+- Utilizar @RequiredArgsConstructor sempre que possível.
+- Evitar construtores vazios desnecessários.
+- Não utilizar field injection (@Autowired em atributos).
+- Métodos devem possuir responsabilidade única.
+- Evitar duplicação de código.
 
-Toda entrada deve utilizar Request DTO.
+## Providers
+**Todo Provider deve:**
+- Receber dependências por injeção.
+- Ser responsável apenas pela comunicação HTTP.
+- Nunca conter regra de negócio.
+- Nunca acessar Repository.
+- Utilizar HttpClient configurado em Config.
+- Lançar apenas exceções específicas do Provider.
 
-Toda saída deve utilizar Response DTO.
+## Services
+- Toda regra de negócio deve estar na Service.
+- Services nunca conhecem detalhes da API externa.
+- Services utilizam Providers e Repositories.
+- Services nunca fazem chamadas HTTP diretamente.
 
-As conversões devem ser realizadas pelos Mappers.
+## Mappers
+- Providers possuem seus próprios Mappers.
+- Controllers possuem seus próprios Response DTOs.
+- Nunca reutilizar DTOs do Provider na Controller.
+- Toda conversão deve ocorrer em Mappers.
+
+## Exceptions
+- Toda exceção deve ser específica.
+- Utilizar RuntimeException.
+- Nunca retornar Exception genérica.
+- Todas as exceções devem ser tratadas pelo GlobalExceptionHandler.
