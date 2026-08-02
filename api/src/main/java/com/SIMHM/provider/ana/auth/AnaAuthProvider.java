@@ -7,6 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Instant;
 
+import com.SIMHM.config.ApplicationMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,18 +44,29 @@ public class AnaAuthProvider {
     }
 
     public synchronized String getToken() {
+
         if (isTokenExpired()) {
+            log.info(ApplicationMessages.ANA_TOKEN_EXPIRED);
+
             AnaAuthResponse response = fetchToken(username, password);
+
             if (response == null
                     || response.getItems() == null
                     || response.getItems().getTokenautenticacao() == null
                     || response.getItems().getTokenautenticacao().isBlank()) {
 
-                throw new AnaAuthException("Falha ao obter token da ANA");
+                log.error(ApplicationMessages.EXCEPTION_ANA_AUTH_TOKEN);
+
+                throw new AnaAuthException(ApplicationMessages.EXCEPTION_ANA_AUTH_TOKEN);
             }
 
             token = response.getItems().getTokenautenticacao();
             expiry = Instant.now().plusSeconds(3600);
+
+            log.info(ApplicationMessages.ANA_AUTH_SUCCESS);
+
+        } else {
+            log.debug(ApplicationMessages.ANA_TOKEN_REUSED);
         }
 
         return token;
@@ -65,6 +77,8 @@ public class AnaAuthProvider {
     }
 
     protected AnaAuthResponse fetchToken(String username, String password) {
+
+        log.info(ApplicationMessages.ANA_AUTH_REQUEST);
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(authEndpoint))
@@ -73,17 +87,34 @@ public class AnaAuthProvider {
                     .GET()
                     .build();
 
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response =
+                    httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
             if (response.statusCode() < 200 || response.statusCode() >= 300) {
-                throw new AnaAuthException("Falha ao autenticar na ANA. HTTP " + response.statusCode());
+                log.error("{} HTTP={}",
+                        ApplicationMessages.ANA_AUTH_HTTP_ERROR,
+                        response.statusCode());
+
+                throw new AnaAuthException(
+                        ApplicationMessages.EXCEPTION_ANA_AUTH + " HTTP " + response.statusCode());
             }
 
             return objectMapper.readValue(response.body(), AnaAuthResponse.class);
+
         } catch (IOException e) {
-            throw new AnaAuthException("Erro ao processar resposta da ANA", e);
+            log.error(ApplicationMessages.ANA_AUTH_RESPONSE_ERROR, e);
+
+            throw new AnaAuthException(
+                    ApplicationMessages.EXCEPTION_ANA_AUTH_RESPONSE,
+                    e);
+
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new AnaAuthException("Requisição para a ANA interrompida", e);
+            log.error(ApplicationMessages.ANA_AUTH_INTERRUPTED, e);
+
+            throw new AnaAuthException(
+                    ApplicationMessages.EXCEPTION_ANA_AUTH_INTERRUPTED,
+                    e);
         }
     }
 }

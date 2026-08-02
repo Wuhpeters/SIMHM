@@ -3,6 +3,7 @@
 estações hidrologicas em tempo real e cruza essas informações para fornecer um índice de risco de enchentes para uma determinada região.
 
 ## Estrutura do diretório
+```text
 SIMHM/
 |-- config/
 |-- controller/
@@ -22,7 +23,7 @@ SIMHM/
     |-- open-meteo/
 |-- repository/
 |-- service/
-
+```
 ## Tecnologias utilizadas
 - Projeto Maven:
 - Java 21,

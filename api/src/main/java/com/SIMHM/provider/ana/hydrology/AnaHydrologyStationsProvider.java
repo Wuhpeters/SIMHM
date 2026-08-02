@@ -8,8 +8,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
+import com.SIMHM.config.ApplicationMessages;
 import com.SIMHM.provider.ana.auth.AnaAuthProvider;
 import com.SIMHM.provider.ana.response.AnaHydrologyStationsResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,7 @@ public class AnaHydrologyStationsProvider {
     private final AnaHydrologyStationsMapper mapper;
     private final AnaAuthProvider authProvider;
     private final String estacoesEndpoint;
+    private static final Logger log = LoggerFactory.getLogger(AnaHydrologyStationsProvider.class);
 
     public AnaHydrologyStationsProvider(@Value("${ana.endpoints.estacoes}") String estacoesEndpoint,
                                         HttpClient httpClient, AnaHydrologyStationsMapper mapper,
@@ -35,10 +39,13 @@ public class AnaHydrologyStationsProvider {
     }
 
     public AnaHydrologyStationsResponse listStations(AnaHydrologyStationsRequest request) {
+
         if (request == null) {
-            throw new AnaHydrologyStationsException("Requisição da ANA não pode ser nula");
+            throw new AnaHydrologyStationsException(
+                    ApplicationMessages.EXCEPTION_ANA_STATIONS_REQUEST);
         }
 
+        log.info(ApplicationMessages.ANA_STATIONS_REQUEST);
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(buildUri(request))
                 .header("Authorization", "Bearer " + authProvider.getToken())
@@ -46,11 +53,17 @@ public class AnaHydrologyStationsProvider {
                 .build();
 
         HttpResponse<String> response = send(httpRequest);
+
         if (response.statusCode() < 200 || response.statusCode() >= 300) {
-            throw new AnaHydrologyStationsException("Falha ao consultar estações hidrológicas da ANA. HTTP "
-                    + response.statusCode());
+            log.error("{} HTTP={}",
+                    ApplicationMessages.ANA_STATIONS_HTTP_ERROR,
+                    response.statusCode());
+
+            throw new AnaHydrologyStationsException(
+                    ApplicationMessages.EXCEPTION_ANA_STATIONS + " HTTP " + response.statusCode());
         }
 
+        log.info(ApplicationMessages.ANA_STATIONS_SUCCESS);
         return mapper.toResponse(response.body());
     }
 
@@ -58,10 +71,16 @@ public class AnaHydrologyStationsProvider {
         try {
             return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException e) {
-            throw new AnaHydrologyStationsException("Erro ao chamar a ANA", e);
+            log.error(ApplicationMessages.ANA_STATIONS_RESPONSE_ERROR, e);
+            throw new AnaHydrologyStationsException(
+                    ApplicationMessages.EXCEPTION_ANA_STATIONS_RESPONSE,
+                    e);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new AnaHydrologyStationsException("Requisição para a ANA interrompida", e);
+            log.error(ApplicationMessages.ANA_STATIONS_INTERRUPTED, e);
+            throw new AnaHydrologyStationsException(
+                    ApplicationMessages.EXCEPTION_ANA_STATIONS_INTERRUPTED,
+                    e);
         }
     }
 
