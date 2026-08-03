@@ -19,7 +19,7 @@ public class GeolocalizationController {
     private final GeolocalizationService geolocalizationService;
 
     @GetMapping("/")
-    public GeolocalizationResponse getLocalization(@RequestParam(required = false) GeolocalizationRequest localization) {
+    public GeolocalizationResponse getLocalization(GeolocalizationRequest localization) {
         return geolocalizationService.getLocalization(localization);
     }
 }

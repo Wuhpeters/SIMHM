@@ -55,7 +55,7 @@ public final class ApplicationMessages {
     public static final String STATION_SERVICE_EMPTY =
             "[SERVICE] Nenhuma estação encontrada.";
 
-    //----------EXCEPTION-MESSAGES----------//
+    //----------ANA-EXCEPTION-MESSAGES----------//
 
     public static final String EXCEPTION_ANA_AUTH =
             "Falha ao autenticar na API da ANA.";
@@ -83,4 +83,30 @@ public final class ApplicationMessages {
 
     public static final String EXCEPTION_STATION_NOT_FOUND =
             "Nenhuma estação foi encontrada para os parâmetros informados.";
+
+    //----------METEO-GEOLOCATION----------//
+
+    public static final String METEO_GEOLOC_REQUEST_INVALID =
+            "[METEO] Requisição de geolocalização inválida.";
+
+    public static final String METEO_GEOLOC_REQUEST =
+            "[METEO] Solicitando geolocalização.";
+
+    public static final String METEO_GEOLOC_SUCCESS =
+            "[METEO] Geolocalização retornada com sucesso.";
+
+    public static final String METEO_GEOLOC_HTTP_ERROR =
+            "[METEO] Erro HTTP ao consultar geolocalização.";
+
+    public static final String METEO_GEOLOC_RESPONSE_ERROR =
+            "[METEO] Erro ao processar resposta da geolocalização.";
+
+    public static final String METEO_GEOLOC_INTERRUPTED =
+            "[METEO] Requisição de geolocalização interrompida.";
+
+    //----------METEO-EXCEPTION-MESSAGES----------//
+
+    public static final String EXCEPTION_METEO_GEOLOC =
+            "Falha ao consultar geolocalização.";
 }
+

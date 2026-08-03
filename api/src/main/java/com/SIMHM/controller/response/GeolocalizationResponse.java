@@ -9,9 +9,9 @@ import lombok.*;
 @Setter
 public class GeolocalizationResponse {
 
-    private String latitude;
-    private String longitude;
     private String city;
     private String state;
     private String country;
+    private String latitude;
+    private String longitude;
 }
