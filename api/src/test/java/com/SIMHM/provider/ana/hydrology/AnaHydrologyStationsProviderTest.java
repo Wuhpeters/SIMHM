@@ -1,4 +1,4 @@
-package com.SIMHM.provider.ana.hydrology.test;
+package com.SIMHM.provider.ana.hydrology;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

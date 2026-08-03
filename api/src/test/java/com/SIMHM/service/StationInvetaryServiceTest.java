@@ -32,7 +32,7 @@ class StationInvetaryServiceTest {
 
         StubProvider provider = new StubProvider(providerResponse);
         StubMapper mapper = new StubMapper(expected);
-        StationInvetaryService service = new StationInvetaryService(provider, mapper);
+        StationInvetaryService service = new StationInvetaryService(mapper, provider);
 
         AnaStationsResponse result = service.getStations();
 
@@ -48,8 +48,8 @@ class StationInvetaryServiceTest {
         providerResponse.setItems(List.of());
 
         StationInvetaryService service = new StationInvetaryService(
-                new StubProvider(providerResponse),
-                new StubMapper(new AnaStationsResponse()));
+                new StubMapper(new AnaStationsResponse()),
+                new StubProvider(providerResponse));
 
         assertThrows(StationInventoryException.class, service::getStations);
     }

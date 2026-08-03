@@ -1,4 +1,4 @@
-package com.SIMHM.provider.ana.auth.test;
+package com.SIMHM.provider.ana.auth;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

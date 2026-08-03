@@ -33,8 +33,8 @@ class AnaControllerTest {
 
         private StubService(AnaStationsResponse response) {
             super(
-                    new StubProvider(),
-                    new AnaStationMapper());
+                    new AnaStationMapper(),
+                    new StubProvider());
             this.response = response;
         }
 
