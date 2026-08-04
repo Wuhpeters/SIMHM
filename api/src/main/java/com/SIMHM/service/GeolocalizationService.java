@@ -10,6 +10,7 @@ import com.SIMHM.provider.meteo.exception.MeteoGeolocalizationException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class GeolocalizationService {
     private final MeteoGeolocalizationProvider meteoGeolocalizationProvider;
     private static final Logger log = LoggerFactory.getLogger(GeolocalizationService.class);
 
+    @Cacheable(value = "geolocation", key = "#localization.city.trim().toLowerCase()", sync = true)
     public GeolocalizationResponse getLocalization(GeolocalizationRequest localization) {
 
         log.info(ApplicationMessages.METEO_GEOLOC_REQUEST);
