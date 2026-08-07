@@ -171,5 +171,36 @@ public final class ApplicationMessages {
 
     public static final String EXCEPTION_METEO_HISTORICAL_WEATHER_REQUEST_INVALID =
             "Requisição de dados meteorológicos históricos é inválida ou incompleta.";
+
+    //----------METEO-FORECAST----------//
+
+    public static final String METEO_FORECAST_REQUEST =
+            "[METEO] Solicitando previsão do tempo.";
+
+    public static final String METEO_FORECAST_SUCCESS =
+            "[METEO] Previsão do tempo retornada com sucesso.";
+
+    public static final String METEO_FORECAST_HTTP_ERROR =
+            "[METEO] Erro HTTP ao consultar previsão do tempo.";
+
+    public static final String METEO_FORECAST_RESPONSE_ERROR =
+            "[METEO] Erro ao processar resposta da previsão do tempo.";
+
+    public static final String METEO_FORECAST_INTERRUPTED =
+            "[METEO] Requisição da previsão do tempo interrompida.";
+
+//----------METEO-FORECAST-EXCEPTION-MESSAGES----------//
+
+    public static final String EXCEPTION_METEO_FORECAST =
+            "Falha ao consultar previsão do tempo.";
+
+    public static final String EXCEPTION_METEO_FORECAST_RESPONSE =
+            "Erro ao processar resposta da previsão do tempo.";
+
+    public static final String EXCEPTION_METEO_FORECAST_INTERRUPTED =
+            "Requisição da previsão do tempo foi interrompida.";
+
+    public static final String EXCEPTION_METEO_FORECAST_REQUEST_INVALID =
+            "Requisição da previsão do tempo é inválida ou incompleta.";
 }
 

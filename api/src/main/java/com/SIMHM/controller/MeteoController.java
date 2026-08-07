@@ -3,6 +3,7 @@ package com.SIMHM.controller;
 import com.SIMHM.controller.request.MeteoFloodRequest;
 import com.SIMHM.controller.request.MeteoHistoricalWeatherRequest;
 import com.SIMHM.controller.response.MeteoFloodResponse;
+import com.SIMHM.controller.response.MeteoForecastResponse;
 import com.SIMHM.controller.response.MeteoHistoricalWeatherResponse;
 import com.SIMHM.service.MeteoFloodService;
 import com.SIMHM.service.MeteoWeatherService;
@@ -24,6 +25,11 @@ public class MeteoController {
     @GetMapping("/flood")
     public MeteoFloodResponse getLocalization(MeteoFloodRequest localization) {
         return meteoFloodService.getRiverDischarge(localization);
+    }
+
+    @GetMapping("/forecast")
+    public MeteoForecastResponse getForecast(MeteoForecastRequest request) {
+        return meteoWeatherService.getForecast(request);
     }
 
     @GetMapping("/historical-weather")
