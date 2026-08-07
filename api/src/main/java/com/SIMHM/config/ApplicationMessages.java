@@ -108,5 +108,36 @@ public final class ApplicationMessages {
 
     public static final String EXCEPTION_METEO_GEOLOC =
             "Falha ao consultar geolocalização.";
+
+    //----------METEO-FLOOD----------//
+
+    public static final String METEO_FLOOD_REQUEST =
+            "[METEO] Solicitando dados de vazão do rio.";
+
+    public static final String METEO_FLOOD_SUCCESS =
+            "[METEO] Dados de vazão do rio retornados com sucesso.";
+
+    public static final String METEO_FLOOD_HTTP_ERROR =
+            "[METEO] Erro HTTP ao consultar dados de vazão do rio.";
+
+    public static final String METEO_FLOOD_RESPONSE_ERROR =
+            "[METEO] Erro ao processar resposta de vazão do rio.";
+
+    public static final String METEO_FLOOD_INTERRUPTED =
+            "[METEO] Requisição de dados de vazão do rio interrompida.";
+
+    //----------METEO-FLOOD-EXCEPTION-MESSAGES----------//
+
+    public static final String EXCEPTION_METEO_FLOOD =
+            "Falha ao consultar dados de vazão do rio.";
+
+    public static final String EXCEPTION_METEO_FLOOD_RESPONSE =
+            "Erro ao processar resposta de vazão do rio.";
+
+    public static final String EXCEPTION_METEO_FLOOD_INTERRUPTED =
+            "Requisição de dados de vazão do rio foi interrompida.";
+
+    public static final String EXCEPTION_METEO_FLOOD_REQUEST_INVALID =
+            "Requisição de dados de vazão do rio é inválida ou incompleta.";
 }
 
