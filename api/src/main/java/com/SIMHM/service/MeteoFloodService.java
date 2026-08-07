@@ -14,11 +14,11 @@ import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
-public class MeteoService {
+public class MeteoFloodService {
 
     private final MeteoFloodMapper meteoFloodMapper;
     private final MeteoFloodProvider meteoFloodProvider;
-    private static final Logger log = LoggerFactory.getLogger(MeteoService.class);
+    private static final Logger log = LoggerFactory.getLogger(MeteoFloodService.class);
 
     public MeteoFloodResponse getRiverDischarge(MeteoFloodRequest request) {
 

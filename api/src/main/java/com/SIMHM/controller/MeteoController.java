@@ -1,8 +1,11 @@
 package com.SIMHM.controller;
 
 import com.SIMHM.controller.request.MeteoFloodRequest;
+import com.SIMHM.controller.request.MeteoHistoricalWeatherRequest;
 import com.SIMHM.controller.response.MeteoFloodResponse;
-import com.SIMHM.service.MeteoService;
+import com.SIMHM.controller.response.MeteoHistoricalWeatherResponse;
+import com.SIMHM.service.MeteoFloodService;
+import com.SIMHM.service.MeteoWeatherService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/meteo")
 public class MeteoController {
 
-    private final MeteoService meteoService;
+    private final MeteoFloodService meteoFloodService;
+    private final MeteoWeatherService meteoWeatherService;
 
     @GetMapping("/flood")
     public MeteoFloodResponse getLocalization(MeteoFloodRequest localization) {
-        return meteoService.getRiverDischarge(localization);
+        return meteoFloodService.getRiverDischarge(localization);
+    }
+
+    @GetMapping("/historical-weather")
+    public MeteoHistoricalWeatherResponse getHistoricalWeather(MeteoHistoricalWeatherRequest request) {
+       return meteoWeatherService.getHistoricalWeather(request);
     }
 }

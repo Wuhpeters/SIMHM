@@ -139,5 +139,37 @@ public final class ApplicationMessages {
 
     public static final String EXCEPTION_METEO_FLOOD_REQUEST_INVALID =
             "Requisição de dados de vazão do rio é inválida ou incompleta.";
+
+    //----------METEO-HISTORICAL-WEATHER----------//
+
+    public static final String METEO_HISTORICAL_WEATHER_REQUEST =
+            "[METEO] Solicitando dados meteorológicos históricos.";
+
+    public static final String METEO_HISTORICAL_WEATHER_SUCCESS =
+            "[METEO] Dados meteorológicos históricos retornados com sucesso.";
+
+    public static final String METEO_HISTORICAL_WEATHER_HTTP_ERROR =
+            "[METEO] Erro HTTP ao consultar dados meteorológicos históricos.";
+
+    public static final String METEO_HISTORICAL_WEATHER_RESPONSE_ERROR =
+            "[METEO] Erro ao processar resposta dos dados meteorológicos históricos.";
+
+    public static final String METEO_HISTORICAL_WEATHER_INTERRUPTED =
+            "[METEO] Requisição de dados meteorológicos históricos interrompida.";
+
+
+//----------METEO-HISTORICAL-WEATHER-EXCEPTION-MESSAGES----------//
+
+    public static final String EXCEPTION_METEO_HISTORICAL_WEATHER =
+            "Falha ao consultar dados meteorológicos históricos.";
+
+    public static final String EXCEPTION_METEO_HISTORICAL_WEATHER_RESPONSE =
+            "Erro ao processar resposta dos dados meteorológicos históricos.";
+
+    public static final String EXCEPTION_METEO_HISTORICAL_WEATHER_INTERRUPTED =
+            "Requisição de dados meteorológicos históricos foi interrompida.";
+
+    public static final String EXCEPTION_METEO_HISTORICAL_WEATHER_REQUEST_INVALID =
+            "Requisição de dados meteorológicos históricos é inválida ou incompleta.";
 }
 

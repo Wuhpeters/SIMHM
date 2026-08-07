@@ -24,7 +24,7 @@ public class MeteoFloodProvider extends BaseProvider {
     private static final Logger log = LoggerFactory.getLogger(MeteoFloodProvider.class);
 
     protected MeteoFloodProvider(
-            @Value("${open-meteo.endpoints.floodEndpoint}") String floodEndpoint,
+            @Value("${open-meteo.endpoints.flood}") String floodEndpoint,
             HttpClient httpClient, ObjectMapper objectMapper) {
         super(httpClient);
         this.floodEndpoint = floodEndpoint;
